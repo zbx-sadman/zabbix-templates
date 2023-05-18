@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>6.0</version>
-    <date>2023-05-18T11:19:57Z</date>
+    <date>2023-05-18T13:03:38Z</date>
     <groups>
         <group>
             <uuid>60f1dce8720d41eab748470cd7d4746e</uuid>
@@ -54,13 +54,21 @@ Probaly the same that 1.3.6.1.4.1.40093.10.1.5.2.1.7.4</description>
                             <value>resource</value>
                         </tag>
                     </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>1dde5782e4c543ac90ec163830bc8c61</uuid>
+                            <expression>last(/Template Pantum M6700DW by SNMP/cartridge.status)=1</expression>
+                            <name>No cartridge installed</name>
+                            <priority>HIGH</priority>
+                        </trigger>
+                    </triggers>
                 </item>
                 <item>
                     <uuid>410f7f26955549ce9c412ce8530ddbc0</uuid>
-                    <name>Cartrige model</name>
+                    <name>Cartridge model</name>
                     <type>SNMP_AGENT</type>
                     <snmp_oid>.1.3.6.1.4.1.40093.10.1.5.2.1.5.4</snmp_oid>
-                    <key>cartrige.model</key>
+                    <key>cartridge.model</key>
                     <history>7d</history>
                     <trends>0</trends>
                     <value_type>TEXT</value_type>
@@ -75,22 +83,22 @@ Probaly the same that 1.3.6.1.4.1.40093.10.1.5.2.1.7.4</description>
                     <tags>
                         <tag>
                             <tag>component</tag>
-                            <value>cartrige</value>
+                            <value>cartridge</value>
                         </tag>
                     </tags>
                 </item>
                 <item>
                     <uuid>c9f0e62362514ec6b4cd47f18def0dfc</uuid>
-                    <name>Cartrige has ben printed pages</name>
+                    <name>Cartridge has ben printed pages</name>
                     <type>SNMP_AGENT</type>
                     <snmp_oid>.1.3.6.1.4.1.40093.1.1.3.11</snmp_oid>
-                    <key>cartrige.printed.total</key>
+                    <key>cartridge.printed.total</key>
                     <value_type>FLOAT</value_type>
                     <description>Print and read M6700 info page</description>
                     <tags>
                         <tag>
                             <tag>component</tag>
-                            <value>cartrige</value>
+                            <value>cartridge</value>
                         </tag>
                         <tag>
                             <tag>component</tag>
@@ -102,43 +110,32 @@ Probaly the same that 1.3.6.1.4.1.40093.10.1.5.2.1.7.4</description>
                     <uuid>dabce537309e4098bdbe0aaf37de3d7a</uuid>
                     <name>Catrirge resource (%)</name>
                     <type>SNMP_AGENT</type>
-                    <snmp_oid>.1.3.6.1.4.1.40093.10.1.5.2.1.3.4</snmp_oid>
-                    <key>cartrige.resource.percent</key>
+                    <snmp_oid>.1.3.6.1.4.1.40093.6.3.1</snmp_oid>
+                    <key>cartridge.resource.percent</key>
                     <value_type>FLOAT</value_type>
                     <units>%</units>
+                    <description>eq
+
+.1.3.6.1.4.1.40093.1.1.3.13.2 
+and
+.1.3.6.1.4.1.40093.10.1.5.2.1.3.4</description>
                     <tags>
                         <tag>
                             <tag>component</tag>
-                            <value>cartrige</value>
+                            <value>cartridge</value>
                         </tag>
                         <tag>
                             <tag>component</tag>
                             <value>resource</value>
                         </tag>
                     </tags>
-                    <triggers>
-                        <trigger>
-                            <uuid>c8d1b6d923a14805836f071e107e8df9</uuid>
-                            <expression>max(/Template Pantum M6700DW by SNMP/cartrige.resource.percent,{$PROBE.TIME.PERIOD})&lt;{$CARTRIGE.REMAINING.LIFE.CRIT}</expression>
-                            <name>Cartrige resource is critical low</name>
-                            <opdata>Current value: {ITEM.LASTVALUE1}</opdata>
-                            <priority>AVERAGE</priority>
-                        </trigger>
-                        <trigger>
-                            <uuid>3fe96f056a394823b18ccc95697b3fe4</uuid>
-                            <expression>max(/Template Pantum M6700DW by SNMP/cartrige.resource.percent,{$PROBE.TIME.PERIOD})&lt;{$CARTRIGE.REMAINING.LIFE.WARN}</expression>
-                            <name>Cartrige resource is low</name>
-                            <opdata>Current value: {ITEM.LASTVALUE1}</opdata>
-                            <priority>WARNING</priority>
-                        </trigger>
-                    </triggers>
                 </item>
                 <item>
                     <uuid>fea9d654bc1d4e9395266601e6676fa9</uuid>
-                    <name>Cartrige s/n</name>
+                    <name>Cartridge s/n</name>
                     <type>SNMP_AGENT</type>
                     <snmp_oid>.1.3.6.1.4.1.40093.10.1.5.2.1.6.4</snmp_oid>
-                    <key>cartrige.serialnumber</key>
+                    <key>cartridge.serialnumber</key>
                     <history>7d</history>
                     <trends>0</trends>
                     <value_type>TEXT</value_type>
@@ -153,7 +150,7 @@ Probaly the same that 1.3.6.1.4.1.40093.10.1.5.2.1.7.4</description>
                     <tags>
                         <tag>
                             <tag>component</tag>
-                            <value>cartrige</value>
+                            <value>cartridge</value>
                         </tag>
                     </tags>
                 </item>
@@ -225,22 +222,6 @@ Probaly the same that 1.3.6.1.4.1.40093.10.1.5.2.1.7.4</description>
                             <value>resource</value>
                         </tag>
                     </tags>
-                    <triggers>
-                        <trigger>
-                            <uuid>a343c92aad80483db2a82dffdb395dfa</uuid>
-                            <expression>max(/Template Pantum M6700DW by SNMP/drum.resource.percent,{$PROBE.TIME.PERIOD})&lt;{$DRUM.REMAINING.LIFE.CRIT}</expression>
-                            <name>Drum resource is critical low</name>
-                            <opdata>Current value: {ITEM.LASTVALUE1}</opdata>
-                            <priority>WARNING</priority>
-                        </trigger>
-                        <trigger>
-                            <uuid>f6fcddf3b9c94ddcb99853de88ca8565</uuid>
-                            <expression>max(/Template Pantum M6700DW by SNMP/drum.resource.percent,{$PROBE.TIME.PERIOD})&lt;{$DRUM.REMAINING.LIFE.WARN}</expression>
-                            <name>Drum resource is low</name>
-                            <opdata>Current value: {ITEM.LASTVALUE1}</opdata>
-                            <priority>WARNING</priority>
-                        </trigger>
-                    </triggers>
                 </item>
                 <item>
                     <uuid>3faee9683b584b029b41f53eb4b328d8</uuid>
@@ -294,6 +275,14 @@ probaly the same that 1.3.6.1.4.1.40093.10.1.5.3.1.6</description>
                             <value>resource</value>
                         </tag>
                     </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>06b6eab660264da7b8bd810fee14cf2c</uuid>
+                            <expression>last(/Template Pantum M6700DW by SNMP/drum.status)=1</expression>
+                            <name>No drum unit installed</name>
+                            <priority>HIGH</priority>
+                        </trigger>
+                    </triggers>
                 </item>
                 <item>
                     <uuid>1b8e997a153b4181b7d611f8c9bc6dfd</uuid>
@@ -404,7 +393,9 @@ probaly the same that 1.3.6.1.4.1.40093.10.1.5.3.1.6</description>
                     <history>7d</history>
                     <trends>0</trends>
                     <description>0 - ok
-131 - no papier</description>
+131 - no papier
+
+Note: papier.status == 0 if no papier and no cartridg / drum unit simultaneously</description>
                     <preprocessing>
                         <step>
                             <type>DISCARD_UNCHANGED_HEARTBEAT</type>
@@ -452,8 +443,9 @@ probaly the same that 1.3.6.1.4.1.40093.10.1.5.3.1.6</description>
                     <triggers>
                         <trigger>
                             <uuid>9d27970a0abc49dc80656292bc5070ae</uuid>
-                            <expression>last(/Template Pantum M6700DW by SNMP/printer.status)&lt;&gt;1 and last(/Template Pantum M6700DW by SNMP/printer.status)&lt;&gt;2 and last(/Template Pantum M6700DW by SNMP/printer.status)&lt;&gt;3</expression>
-                            <name>Printer Unknown State (please add to template)</name>
+                            <expression>last(/Template Pantum M6700DW by SNMP/printer.status)&lt;&gt;1 and last(/Template Pantum M6700DW by SNMP/printer.status)&lt;&gt;2 and last(/Template Pantum M6700DW by SNMP/printer.status)&lt;&gt;3 and last(/Template Pantum M6700DW by SNMP/printer.status)&lt;&gt;5</expression>
+                            <name>Print unit unknown state (please add to template)</name>
+                            <opdata>Current state: {ITEM.LASTVALUE1}</opdata>
                             <priority>AVERAGE</priority>
                         </trigger>
                     </triggers>
@@ -467,6 +459,7 @@ probaly the same that 1.3.6.1.4.1.40093.10.1.5.3.1.6</description>
                     <history>7d</history>
                     <trends>0</trends>
                     <value_type>TEXT</value_type>
+                    <inventory_link>SOFTWARE</inventory_link>
                     <preprocessing>
                         <step>
                             <type>DISCARD_UNCHANGED_HEARTBEAT</type>
@@ -516,7 +509,7 @@ probaly the same that 1.3.6.1.4.1.40093.10.1.5.3.1.6</description>
                     <history>1d</history>
                     <trends>0</trends>
                     <value_type>TEXT</value_type>
-                    <inventory_link>TYPE_FULL</inventory_link>
+                    <inventory_link>TYPE</inventory_link>
                     <preprocessing>
                         <step>
                             <type>DISCARD_UNCHANGED_HEARTBEAT</type>
@@ -565,6 +558,7 @@ probaly the same that 1.3.6.1.4.1.40093.10.1.5.3.1.6</description>
                     <history>1d</history>
                     <trends>0</trends>
                     <value_type>TEXT</value_type>
+                    <inventory_link>SERIALNO_A</inventory_link>
                     <preprocessing>
                         <step>
                             <type>DISCARD_UNCHANGED_HEARTBEAT</type>
@@ -640,7 +634,7 @@ probaly the same that 1.3.6.1.4.1.40093.10.1.5.3.1.6</description>
                     <history>1d</history>
                     <trends>0</trends>
                     <description>1 - idle
-2 - sleep
+2 - sleeping
 3 - warming up
 6 - printing (or 4?)
 7 - scanning
@@ -648,6 +642,9 @@ probaly the same that 1.3.6.1.4.1.40093.10.1.5.3.1.6</description>
 501 - error / no cartridge or drum
 502 - error / front cover opened
 503 - error / no papier</description>
+                    <valuemap>
+                        <name>System state</name>
+                    </valuemap>
                     <preprocessing>
                         <step>
                             <type>DISCARD_UNCHANGED_HEARTBEAT</type>
@@ -668,12 +665,6 @@ probaly the same that 1.3.6.1.4.1.40093.10.1.5.3.1.6</description>
                             <expression>last(/Template Pantum M6700DW by SNMP/system.state)=502</expression>
                             <name>Front cover opened</name>
                             <priority>WARNING</priority>
-                        </trigger>
-                        <trigger>
-                            <uuid>91e7610a96414ed0b77447defa6c3826</uuid>
-                            <expression>last(/Template Pantum M6700DW by SNMP/system.state)=501</expression>
-                            <name>No cartridge or drum unit installed</name>
-                            <priority>HIGH</priority>
                         </trigger>
                     </triggers>
                 </item>
@@ -725,11 +716,11 @@ probaly the same that 1.3.6.1.4.1.40093.10.1.5.3.1.6</description>
             </items>
             <macros>
                 <macro>
-                    <macro>{$CARTRIGE.REMAINING.LIFE.CRIT}</macro>
+                    <macro>{$CARTRIDGE.REMAINING.LIFE.CRIT}</macro>
                     <value>5</value>
                 </macro>
                 <macro>
-                    <macro>{$CARTRIGE.REMAINING.LIFE.WARN}</macro>
+                    <macro>{$CARTRIDGE.REMAINING.LIFE.WARN}</macro>
                     <value>10</value>
                 </macro>
                 <macro>
@@ -749,9 +740,112 @@ probaly the same that 1.3.6.1.4.1.40093.10.1.5.3.1.6</description>
                     <value>5m</value>
                 </macro>
             </macros>
+            <valuemaps>
+                <valuemap>
+                    <uuid>dab198a554dc48adb68d8f473ca98776</uuid>
+                    <name>System state</name>
+                    <mappings>
+                        <mapping>
+                            <value>1</value>
+                            <newvalue>idle</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>2</value>
+                            <newvalue>sleeping</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>3</value>
+                            <newvalue>warming up</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>4</value>
+                            <newvalue>printing</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>6</value>
+                            <newvalue>printing</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>7</value>
+                            <newvalue>scanning</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>501</value>
+                            <newvalue>no cartridge or drum</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>502</value>
+                            <newvalue>front cover opened</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>503</value>
+                            <newvalue>no papier</newvalue>
+                        </mapping>
+                    </mappings>
+                </valuemap>
+            </valuemaps>
         </template>
     </templates>
     <triggers>
+        <trigger>
+            <uuid>c8d1b6d923a14805836f071e107e8df9</uuid>
+            <expression>max(/Template Pantum M6700DW by SNMP/cartridge.resource.percent,{$PROBE.TIME.PERIOD})&lt;{$CARTRIDGE.REMAINING.LIFE.CRIT} and last(/Template Pantum M6700DW by SNMP/cartridge.status)&lt;&gt;1</expression>
+            <name>Cartridge resource is critical low</name>
+            <opdata>Current value: {ITEM.LASTVALUE1}</opdata>
+            <priority>AVERAGE</priority>
+            <dependencies>
+                <dependency>
+                    <name>Cartridge resource is low</name>
+                    <expression>max(/Template Pantum M6700DW by SNMP/cartridge.resource.percent,{$PROBE.TIME.PERIOD})&lt;{$CARTRIDGE.REMAINING.LIFE.WARN} and last(/Template Pantum M6700DW by SNMP/cartridge.status)&lt;&gt;1</expression>
+                </dependency>
+            </dependencies>
+        </trigger>
+        <trigger>
+            <uuid>3fe96f056a394823b18ccc95697b3fe4</uuid>
+            <expression>max(/Template Pantum M6700DW by SNMP/cartridge.resource.percent,{$PROBE.TIME.PERIOD})&lt;{$CARTRIDGE.REMAINING.LIFE.WARN} and last(/Template Pantum M6700DW by SNMP/cartridge.status)&lt;&gt;1</expression>
+            <name>Cartridge resource is low</name>
+            <opdata>Current value: {ITEM.LASTVALUE1}</opdata>
+            <priority>WARNING</priority>
+            <dependencies>
+                <dependency>
+                    <name>No cartridge installed</name>
+                    <expression>last(/Template Pantum M6700DW by SNMP/cartridge.status)=1</expression>
+                </dependency>
+            </dependencies>
+        </trigger>
+        <trigger>
+            <uuid>a343c92aad80483db2a82dffdb395dfa</uuid>
+            <expression>max(/Template Pantum M6700DW by SNMP/drum.resource.percent,{$PROBE.TIME.PERIOD})&lt;{$DRUM.REMAINING.LIFE.CRIT} and last(/Template Pantum M6700DW by SNMP/drum.status)&lt;&gt;1</expression>
+            <name>Drum resource is critical low</name>
+            <opdata>Current value: {ITEM.LASTVALUE1}</opdata>
+            <priority>WARNING</priority>
+            <dependencies>
+                <dependency>
+                    <name>Drum resource is low</name>
+                    <expression>max(/Template Pantum M6700DW by SNMP/drum.resource.percent,{$PROBE.TIME.PERIOD})&lt;{$DRUM.REMAINING.LIFE.WARN} and last(/Template Pantum M6700DW by SNMP/drum.status)&lt;&gt;1</expression>
+                </dependency>
+            </dependencies>
+        </trigger>
+        <trigger>
+            <uuid>f6fcddf3b9c94ddcb99853de88ca8565</uuid>
+            <expression>max(/Template Pantum M6700DW by SNMP/drum.resource.percent,{$PROBE.TIME.PERIOD})&lt;{$DRUM.REMAINING.LIFE.WARN} and last(/Template Pantum M6700DW by SNMP/drum.status)&lt;&gt;1</expression>
+            <name>Drum resource is low</name>
+            <opdata>Current value: {ITEM.LASTVALUE1}</opdata>
+            <priority>WARNING</priority>
+            <dependencies>
+                <dependency>
+                    <name>No drum unit installed</name>
+                    <expression>last(/Template Pantum M6700DW by SNMP/drum.status)=1</expression>
+                </dependency>
+            </dependencies>
+        </trigger>
+        <trigger>
+            <uuid>91e7610a96414ed0b77447defa6c3826</uuid>
+            <expression>last(/Template Pantum M6700DW by SNMP/system.state)=501 or last(/Template Pantum M6700DW by SNMP/drum.status)=1 or last(/Template Pantum M6700DW by SNMP/cartridge.status)=1</expression>
+            <name>No cartridge or drum unit installed</name>
+            <status>DISABLED</status>
+            <priority>HIGH</priority>
+        </trigger>
         <trigger>
             <uuid>1ee5be2b8988412192cc203f2b02ce7a</uuid>
             <expression>last(/Template Pantum M6700DW by SNMP/system.state)=503 or 
