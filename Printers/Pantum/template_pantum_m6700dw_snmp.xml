@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>6.0</version>
-    <date>2023-05-18T09:49:51Z</date>
+    <date>2023-05-18T11:19:57Z</date>
     <groups>
         <group>
             <uuid>60f1dce8720d41eab748470cd7d4746e</uuid>
@@ -15,7 +15,7 @@
             <name>Template Pantum M6700DW by SNMP</name>
             <description>Pantum M6700DW (FW 3.A.0.3) template v1.0
 
-No private MIB-file found/used
+No private MIB-file found, reverse engeneering used
 
 https://github.com/zbx-sadman/zabbix-templates/</description>
             <groups>
@@ -675,12 +675,6 @@ probaly the same that 1.3.6.1.4.1.40093.10.1.5.3.1.6</description>
                             <name>No cartridge or drum unit installed</name>
                             <priority>HIGH</priority>
                         </trigger>
-                        <trigger>
-                            <uuid>1ee5be2b8988412192cc203f2b02ce7a</uuid>
-                            <expression>last(/Template Pantum M6700DW by SNMP/system.state)=503</expression>
-                            <name>No papier on feeder</name>
-                            <priority>INFO</priority>
-                        </trigger>
                     </triggers>
                 </item>
                 <item>
@@ -704,6 +698,14 @@ probaly the same that 1.3.6.1.4.1.40093.10.1.5.3.1.6</description>
                     <type>INTERNAL</type>
                     <key>zabbix[host,snmp,available]</key>
                     <history>7d</history>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>5m</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <tags>
                         <tag>
                             <tag>component</tag>
@@ -749,4 +751,13 @@ probaly the same that 1.3.6.1.4.1.40093.10.1.5.3.1.6</description>
             </macros>
         </template>
     </templates>
+    <triggers>
+        <trigger>
+            <uuid>1ee5be2b8988412192cc203f2b02ce7a</uuid>
+            <expression>last(/Template Pantum M6700DW by SNMP/system.state)=503 or 
+last(/Template Pantum M6700DW by SNMP/papier.status)=131</expression>
+            <name>No papier on feeder</name>
+            <priority>INFO</priority>
+        </trigger>
+    </triggers>
 </zabbix_export>
