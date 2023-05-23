@@ -27,11 +27,6 @@ Just import template.
 | {$DRUM.RESOURCE.MIN.CRIT}      | Low critical level of drum unit resource             |
 | {$SNMP.TIMEOUT}                | Used for "SNMP agent availability" metric            |
 
-
-## Template links
-
-List all template links if any.
-
 ## Discovery rules
 
 Extended statistic discovery - Create items for extended statistic metrics: Cartridge / Drum unit models, s/n, resource
@@ -66,7 +61,7 @@ Extended statistic discovery - Create items for extended statistic metrics: Cart
 | Drum model\*	                |      -      | SNMP agent      | printer.drum.model[extended]                    |
 | Drum s/n\*	                |      -      | SNMP agent      | printer.drum.serial_number[extended]            |
 | Drum resource (%)\*	        |      -      | SNMP agent      | printer.drum.resource[extended]                 |
-                                                                                                                  |
+
 \* Available on printers/firmware with SNMP subtree 1.3.6.1.4.1.40093.10 exists
 
 ## Triggers
