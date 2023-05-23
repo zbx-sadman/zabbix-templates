@@ -90,6 +90,4 @@ Extended statistic discovery - Create items for extended statistic metrics: Cart
 e-mail to me: zbx.sadman@gmail.com
 
 ## Demo
-
-![image](https://github.com/zbx-sadman/zabbix-templates/assets/12827470/747d593b-ba22-4c82-9b2c-2417ae800cf0)
-
+![image](https://github.com/zbx-sadman/zabbix-templates/assets/12827470/24d193b9-870b-4174-a12c-4351d3875a7a)
