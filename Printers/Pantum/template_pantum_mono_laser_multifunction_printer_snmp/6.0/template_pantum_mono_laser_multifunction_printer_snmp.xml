@@ -1,0 +1,1074 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>6.0</version>
+    <date>2023-05-23T13:59:36Z</date>
+    <groups>
+        <group>
+            <uuid>60f1dce8720d41eab748470cd7d4746e</uuid>
+            <name>Printers</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <uuid>71241980838342559fac8cd4e10b1754</uuid>
+            <template>Pantum mono laser multifunction printer by SNMP</template>
+            <name>Pantum mono laser multifunction printer by SNMP</name>
+            <description>Pantum mono laser multifunction printer template v1.2
+
+Compatible models:
+ - M6700DW (FW 3.A.0.3)  
+ - M7100DN  (FW 3.6.1.4)
+ - M7100DW (FW 2.A.1.3)
+
+No private MIB-file found, reverse engeneering used
+
+https://github.com/zbx-sadman/zabbix-templates/tree/main/Printers/Pantum</description>
+            <groups>
+                <group>
+                    <name>Printers</name>
+                </group>
+            </groups>
+            <items>
+                <item>
+                    <uuid>ade38d14bcfb42f9a90517afaf6796ba</uuid>
+                    <name>Catrirdge resource (%)</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.40093.6.3.1</snmp_oid>
+                    <key>printer.cartridge.resource</key>
+                    <history>7d</history>
+                    <units>%</units>
+                    <description>Printer information page -&gt; Consumables information -&gt; Remaining amount of Toner
+
+The same than .1.3.6.1.4.1.40093.1.1.3.13.2 and .1.3.6.1.4.1.40093.10.1.5.2.1.3.4</description>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1m</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>component</tag>
+                            <value>cartridge</value>
+                        </tag>
+                        <tag>
+                            <tag>component</tag>
+                            <value>resource</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>3dc6c753c0a8463dbb4acd1e26f94a23</uuid>
+                    <name>Cartridge status</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.40093.6.2.2</snmp_oid>
+                    <key>printer.cartridge.status</key>
+                    <history>7d</history>
+                    <description>0 - ok
+1 - error (not installed)
+??
+Probaly the same that 1.3.6.1.4.1.40093.10.1.5.2.1.7.4</description>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1h</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>component</tag>
+                            <value>cartridge</value>
+                        </tag>
+                        <tag>
+                            <tag>component</tag>
+                            <value>resource</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>fd214f4f93004b99bfe16e98445394ea</uuid>
+                            <expression>last(/Pantum mono laser multifunction printer by SNMP/printer.cartridge.status)=1</expression>
+                            <name>No cartridge installed</name>
+                            <priority>HIGH</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>d0dbebab571548bfaedff19e0ab5d7d6</uuid>
+                    <name>Cartridge prints total</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.40093.1.1.3.11</snmp_oid>
+                    <key>printer.cartridge.total_prints</key>
+                    <history>7d</history>
+                    <units>!pcs</units>
+                    <description>Printer information page -&gt; Consumables information -&gt; Ink cartridge has been printed pages</description>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1m</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>component</tag>
+                            <value>cartridge</value>
+                        </tag>
+                        <tag>
+                            <tag>component</tag>
+                            <value>resource</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>cb8e228bfca84adc8f84e74288ed4b6e</uuid>
+                    <name>Cartridge wearing (per hour)</name>
+                    <type>CALCULATED</type>
+                    <key>printer.cartridge.wear_per_hour</key>
+                    <history>7d</history>
+                    <units>%</units>
+                    <params>max(//printer.cartridge.resource,1h)-min(//printer.cartridge.resource,1h)</params>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1h</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>component</tag>
+                            <value>cartridge</value>
+                        </tag>
+                        <tag>
+                            <tag>component</tag>
+                            <value>resource</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>46f7c8f2a8a14c4b927e80c79483dd76</uuid>
+                            <expression>last(/Pantum mono laser multifunction printer by SNMP/printer.cartridge.wear_per_hour)&gt;{$CARTRIDGE.WEAR.PER.HOUR.MAX}</expression>
+                            <name>Cartridge weared too fast</name>
+                            <event_name>Cartridge weared more than {$CARTRIDGE.WEAR.PER.HOUR.MAX}% per hour</event_name>
+                            <opdata>Current value: {ITEM.LASTVALUE1}</opdata>
+                            <priority>WARNING</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>754442e0748e4e6d85744497f55090d8</uuid>
+                    <name>Drum status</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.40093.6.2.3</snmp_oid>
+                    <key>printer.drum.status</key>
+                    <history>7d</history>
+                    <description>0 - ok
+1 - error (not installed)
+??
+probaly the same that 1.3.6.1.4.1.40093.10.1.5.3.1.6</description>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1h</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>component</tag>
+                            <value>drum</value>
+                        </tag>
+                        <tag>
+                            <tag>component</tag>
+                            <value>resource</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>cb2bf04ce5bc4e3e8ea3fc0f81fd40e0</uuid>
+                            <expression>last(/Pantum mono laser multifunction printer by SNMP/printer.drum.status)=1</expression>
+                            <name>No drum unit installed</name>
+                            <priority>HIGH</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>4d176cdd780a483286d173d22cc2c661</uuid>
+                    <name>Pages printed on A4</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.40093.1.1.3.3</snmp_oid>
+                    <key>printer.page.printed_a4</key>
+                    <history>7d</history>
+                    <units>!pcs</units>
+                    <description>Printer information page -&gt; Print information -&gt; A4/Letter</description>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1h</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>component</tag>
+                            <value>page</value>
+                        </tag>
+                        <tag>
+                            <tag>component</tag>
+                            <value>resource</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>90862694bf1f42428860057b329e6d58</uuid>
+                    <name>Pages printed on auto-duplex</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.40093.1.1.3.1</snmp_oid>
+                    <key>printer.page.printed_duplex</key>
+                    <history>7d</history>
+                    <units>!pcs</units>
+                    <description>Printer information page -&gt; Print information -&gt; Pages printed with automatic duplex</description>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1h</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>component</tag>
+                            <value>page</value>
+                        </tag>
+                        <tag>
+                            <tag>component</tag>
+                            <value>resource</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>867dd8b033a74629b415a20aae54b192</uuid>
+                    <name>Pages printed on other size</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.40093.1.1.3.7</snmp_oid>
+                    <key>printer.page.printed_others</key>
+                    <history>7d</history>
+                    <description>Printer information page -&gt; Print information -&gt; Others</description>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1h</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>component</tag>
+                            <value>page</value>
+                        </tag>
+                        <tag>
+                            <tag>component</tag>
+                            <value>resource</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>2882a3e810924090b384cbcb0086df05</uuid>
+                    <name>Pages printed (per hour)</name>
+                    <type>CALCULATED</type>
+                    <key>printer.page.printed_per_hour</key>
+                    <history>7d</history>
+                    <units>!pcs</units>
+                    <params>max(//printer.page.printed_total,1h)-min(//printer.page.printed_total,1h)</params>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1h</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>component</tag>
+                            <value>page</value>
+                        </tag>
+                        <tag>
+                            <tag>component</tag>
+                            <value>resource</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>d8a83aa3bcc945779a51d635729e1ef8</uuid>
+                            <expression>last(/Pantum mono laser multifunction printer by SNMP/printer.page.printed_per_hour)&gt;{$PAGES.PRINTED.PER.HOUR.MAX}</expression>
+                            <name>Page printed too fast</name>
+                            <event_name>Page printed more than {$PAGE.PRINTED.PER.HOUR.MAX} per hour</event_name>
+                            <opdata>Current value: {ITEM.LASTVALUE1}</opdata>
+                            <priority>WARNING</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>728d6f8f882b42d2856b119a5e9179a9</uuid>
+                    <name>Pages printed total</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.40093.1.1.3.12</snmp_oid>
+                    <key>printer.page.printed_total</key>
+                    <history>7d</history>
+                    <units>!pcs</units>
+                    <description>Printer information page -&gt; Print information -&gt; Total pages printed</description>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1h</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>component</tag>
+                            <value>page</value>
+                        </tag>
+                        <tag>
+                            <tag>component</tag>
+                            <value>resource</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>87af252970c24b478c643ad72257a210</uuid>
+                    <name>Papier status</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.40093.6.2.5</snmp_oid>
+                    <key>printer.papier_status</key>
+                    <history>7d</history>
+                    <description>0 - ok
+131 - no papier
+
+Note: papier.status == 0 if no papier and no cartridg / drum unit simultaneously</description>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1h</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>component</tag>
+                            <value>printer</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>c890aabad8144ce7bc92b5a93bdcedae</uuid>
+                    <name>Printer status</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.40093.10.1.2.1</snmp_oid>
+                    <key>printer.status</key>
+                    <history>7d</history>
+                    <description>1 - sleep
+2 - warming up
+3 - ready
+5 - print unit error - no drum / cartridge / opened front cover (?)</description>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1h</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>component</tag>
+                            <value>printer</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>1ed804b4eb3f43a59021d6648f7617cc</uuid>
+                            <expression>last(/Pantum mono laser multifunction printer by SNMP/printer.status)&lt;&gt;1 and last(/Pantum mono laser multifunction printer by SNMP/printer.status)&lt;&gt;2 and last(/Pantum mono laser multifunction printer by SNMP/printer.status)&lt;&gt;3 and last(/Pantum mono laser multifunction printer by SNMP/printer.status)&lt;&gt;5</expression>
+                            <name>Print unit unknown state (please add to template)</name>
+                            <opdata>Current state: {ITEM.LASTVALUE1}</opdata>
+                            <priority>INFO</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>46e65ee13fdc4aa59f34190ee1161fac</uuid>
+                    <name>Firmware version</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.40093.1.1.1.1</snmp_oid>
+                    <key>system.fw.version</key>
+                    <delay>15m</delay>
+                    <history>7d</history>
+                    <trends>0</trends>
+                    <value_type>CHAR</value_type>
+                    <description>Printer information page -&gt; Product information -&gt; Firmware version</description>
+                    <inventory_link>SOFTWARE</inventory_link>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>24h</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>component</tag>
+                            <value>inventory</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>6497a576571144629787cef67c00591b</uuid>
+                            <expression>last(/Pantum mono laser multifunction printer by SNMP/system.fw.version,#1)&lt;&gt;last(/Pantum mono laser multifunction printer by SNMP/system.fw.version,#2) and 
+length(last(/Pantum mono laser multifunction printer by SNMP/system.fw.version))&gt;0</expression>
+                            <name>Firmware has changed</name>
+                            <event_name>Firmware version has changed (new version: {ITEM.VALUE})</event_name>
+                            <priority>INFO</priority>
+                            <description>Firmware version has changed. Ack to close.</description>
+                            <manual_close>YES</manual_close>
+                            <tags>
+                                <tag>
+                                    <tag>scope</tag>
+                                    <value>notice</value>
+                                </tag>
+                            </tags>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>5e4d9d53cfd24dc3ab1a33c47c9b64d2</uuid>
+                    <name>Front cover status</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.40093.6.2.4</snmp_oid>
+                    <key>system.hw.front_cover_status</key>
+                    <history>7d</history>
+                    <trends>0</trends>
+                    <description>0 - ok
+1 - error (opened)
+??</description>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1h</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>component</tag>
+                            <value>system</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>2c9085252d7b494b9269dc63ce6cbdce</uuid>
+                    <name>Hardware model name</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.40093.1.1.1.10</snmp_oid>
+                    <key>system.hw.model</key>
+                    <delay>15m</delay>
+                    <history>1d</history>
+                    <trends>0</trends>
+                    <value_type>CHAR</value_type>
+                    <description>Printer information page -&gt; Product information -&gt; Product name</description>
+                    <inventory_link>TYPE</inventory_link>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>24h</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>component</tag>
+                            <value>system</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>287884b6c7284cea841fb1aa0ff9d850</uuid>
+                    <name>Hardware production date</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.40093.1.1.1.8</snmp_oid>
+                    <key>system.hw.production_date</key>
+                    <delay>15m</delay>
+                    <history>1d</history>
+                    <trends>0</trends>
+                    <value_type>CHAR</value_type>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>24h</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>component</tag>
+                            <value>inventory</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>54afa8ebf1894c55b0b7eef2086f1356</uuid>
+                    <name>Hardware serial number</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.40093.1.1.1.5</snmp_oid>
+                    <key>system.hw.serial_number</key>
+                    <delay>15m</delay>
+                    <history>1d</history>
+                    <trends>0</trends>
+                    <value_type>CHAR</value_type>
+                    <description>Printer information page -&gt; Product information -&gt; Serial number</description>
+                    <inventory_link>SERIALNO_A</inventory_link>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>24h</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>component</tag>
+                            <value>system</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>3d182a5178c346088e493f7e56689252</uuid>
+                    <name>Sleep time</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.4.1.40093.1.1.1.7</snmp_oid>
+                    <key>system.hw.sleep_time</key>
+                    <delay>1h</delay>
+                    <history>1d</history>
+                    <status>DISABLED</status>
+                    <units>min</units>
+                    <description>Printer information page -&gt; System settings -&gt; Sleep time</description>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>24h</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>component</tag>
+                            <value>system</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>165527153a5245cd94d01e1528e1f9d3</uuid>
+                    <name>Memory size</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.40093.1.1.1.2</snmp_oid>
+                    <key>system.hw.total_memory</key>
+                    <delay>15m</delay>
+                    <history>1d</history>
+                    <units>!MiB</units>
+                    <description>Printer information page -&gt; Product information -&gt; Memory size</description>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>24h</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>component</tag>
+                            <value>inventory</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>f9552867d72a426083e27d17eff3c80c</uuid>
+                    <name>System state</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.40093.6.2.1</snmp_oid>
+                    <key>system.state</key>
+                    <history>1d</history>
+                    <trends>0</trends>
+                    <description>1 - idle
+2 - sleeping
+3 - warming up
+6 - printing (or 4?)
+7 - scanning
+
+501 - error / no cartridge or drum
+502 - error / front cover opened
+503 - error / no papier</description>
+                    <valuemap>
+                        <name>System state</name>
+                    </valuemap>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1h</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>component</tag>
+                            <value>system</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>f0f802a5b4444fc88b78b15a629be983</uuid>
+                            <expression>last(/Pantum mono laser multifunction printer by SNMP/system.state)=502</expression>
+                            <name>Front cover opened</name>
+                            <priority>WARNING</priority>
+                            <manual_close>YES</manual_close>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>1e82683d9cc841e28b8869dec73846c2</uuid>
+                    <name>Unknown part status (papier jam maybe)</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.40093.6.2.6</snmp_oid>
+                    <key>unknown.status.01</key>
+                    <description>0 - ok
+1 - error</description>
+                    <tags>
+                        <tag>
+                            <tag>component</tag>
+                            <value>print unit</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>9a7761b715a74e1fa8e1276bbc872938</uuid>
+                    <name>SNMP agent availability</name>
+                    <type>INTERNAL</type>
+                    <key>zabbix[host,snmp,available]</key>
+                    <history>7d</history>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1h</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>component</tag>
+                            <value>system</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>5aa6a1d376674658a95df7c441fe2100</uuid>
+                            <expression>max(/Pantum mono laser multifunction printer by SNMP/zabbix[host,snmp,available],{$SNMP.TIMEOUT})=0</expression>
+                            <name>No SNMP data collection</name>
+                            <opdata>Current state: {ITEM.LASTVALUE1}</opdata>
+                            <priority>HIGH</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+            </items>
+            <discovery_rules>
+                <discovery_rule>
+                    <uuid>88c7c9f51f79460ab75a2d0eafe93158</uuid>
+                    <name>Extended statistic discovery</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>discovery[{#JUST_EXISTIENCE_CHECK},1.3.6.1.4.1.40093.10.1.1]</snmp_oid>
+                    <key>extended.statistic.discovery</key>
+                    <delay>6h</delay>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>9cd9934c46f84f3d8a5ed5858729ee0a</uuid>
+                            <name>Cartridge model</name>
+                            <type>SNMP_AGENT</type>
+                            <snmp_oid>1.3.6.1.4.1.40093.10.1.5.2.1.5.4</snmp_oid>
+                            <key>printer.cartridge.model[{#SINGLETON}]</key>
+                            <delay>15m</delay>
+                            <history>1h</history>
+                            <trends>0</trends>
+                            <value_type>CHAR</value_type>
+                            <description>Printer information page -&gt; Consumables information -&gt; Ink cartridge type</description>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>24h</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <tags>
+                                <tag>
+                                    <tag>component</tag>
+                                    <value>inventory</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>0047e36fbe3b47e3a2530b3848be4238</uuid>
+                            <name>Cartridge s/n</name>
+                            <type>SNMP_AGENT</type>
+                            <snmp_oid>1.3.6.1.4.1.40093.10.1.5.2.1.6.4</snmp_oid>
+                            <key>printer.cartridge.serial_number[{#SINGLETON}]</key>
+                            <delay>15m</delay>
+                            <history>1h</history>
+                            <trends>0</trends>
+                            <value_type>CHAR</value_type>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>24h</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <tags>
+                                <tag>
+                                    <tag>component</tag>
+                                    <value>inventory</value>
+                                </tag>
+                            </tags>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>2dc358a97f2d41adbd0b6dbecb9a706c</uuid>
+                                    <expression>last(/Pantum mono laser multifunction printer by SNMP/printer.cartridge.serial_number[{#SINGLETON}],#1)&lt;&gt;last(/Pantum mono laser multifunction printer by SNMP/printer.cartridge.serial_number[{#SINGLETON}],#2) and 
+length(last(/Pantum mono laser multifunction printer by SNMP/printer.cartridge.serial_number[{#SINGLETON}]))&gt;0</expression>
+                                    <name>Cartridge has changed</name>
+                                    <event_name>Cartridge has changed (new s/n: {ITEM.VALUE})</event_name>
+                                    <priority>INFO</priority>
+                                    <description>Cartridge has changed. Ack to close.</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>bf104a4b3e19482d8765b1c5a0c6faa9</uuid>
+                            <name>Drum model</name>
+                            <type>SNMP_AGENT</type>
+                            <snmp_oid>1.3.6.1.4.1.40093.10.1.5.3.1.4</snmp_oid>
+                            <key>printer.drum.model[{#SINGLETON}]</key>
+                            <delay>15m</delay>
+                            <history>1h</history>
+                            <trends>0</trends>
+                            <value_type>CHAR</value_type>
+                            <description>Printer information page -&gt; Consumables information -&gt; Drum unit type</description>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>24h</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <tags>
+                                <tag>
+                                    <tag>component</tag>
+                                    <value>inventory</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>3f241d1bddfa45688ad69e226b4bf294</uuid>
+                            <name>Drum resource (%)</name>
+                            <type>SNMP_AGENT</type>
+                            <snmp_oid>1.3.6.1.4.1.40093.10.1.5.3.1.2</snmp_oid>
+                            <key>printer.drum.resource[{#SINGLETON}]</key>
+                            <history>7d</history>
+                            <units>%</units>
+                            <description>Printer information page -&gt; Consumables information -&gt; Drum unit remainder</description>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>1m</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <tags>
+                                <tag>
+                                    <tag>component</tag>
+                                    <value>drum</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>5e9d8dbdb67643d69f5f4b9844b8a9d2</uuid>
+                            <name>Drum s/n</name>
+                            <type>SNMP_AGENT</type>
+                            <snmp_oid>1.3.6.1.4.1.40093.10.1.5.3.1.5</snmp_oid>
+                            <key>printer.drum.serial_number[{#SINGLETON}]</key>
+                            <delay>15m</delay>
+                            <history>1h</history>
+                            <trends>0</trends>
+                            <value_type>CHAR</value_type>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>24h</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <tags>
+                                <tag>
+                                    <tag>component</tag>
+                                    <value>inventory</value>
+                                </tag>
+                            </tags>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>1754c20faa6040f8bb7309e306bf8103</uuid>
+                                    <expression>last(/Pantum mono laser multifunction printer by SNMP/printer.drum.serial_number[{#SINGLETON}],#1)&lt;&gt;last(/Pantum mono laser multifunction printer by SNMP/printer.drum.serial_number[{#SINGLETON}],#2) and 
+length(last(/Pantum mono laser multifunction printer by SNMP/printer.drum.serial_number[{#SINGLETON}]))&gt;0</expression>
+                                    <name>Drum has changed</name>
+                                    <event_name>Drum has changed (new s/n: {ITEM.VALUE})</event_name>
+                                    <priority>INFO</priority>
+                                    <description>Drum has changed. Ack to close.</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                    <trigger_prototypes>
+                        <trigger_prototype>
+                            <uuid>022ba624775b4e669e990fceba2d6398</uuid>
+                            <expression>max(/Pantum mono laser multifunction printer by SNMP/printer.drum.resource[{#SINGLETON}],#3)&lt;{$DRUM.RESOURCE.MIN.CRIT} and last(/Pantum mono laser multifunction printer by SNMP/printer.drum.status)&lt;&gt;1</expression>
+                            <name>Drum resource is critical low</name>
+                            <event_name>Cartridge resource is critical low (less {$DRUM.RESOURCE.MIN.CRIT}%)</event_name>
+                            <opdata>Current value: {ITEM.LASTVALUE1}</opdata>
+                            <priority>AVERAGE</priority>
+                            <dependencies>
+                                <dependency>
+                                    <name>Drum resource is low</name>
+                                    <expression>max(/Pantum mono laser multifunction printer by SNMP/printer.drum.resource[{#SINGLETON}],#3)&lt;{$DRUM.RESOURCE.MIN.WARN} and last(/Pantum mono laser multifunction printer by SNMP/printer.drum.status)&lt;&gt;1</expression>
+                                </dependency>
+                            </dependencies>
+                            <tags>
+                                <tag>
+                                    <tag>scope</tag>
+                                    <value>capacity</value>
+                                </tag>
+                            </tags>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <uuid>0cb1b6cb969c4e60accacb20aca0a422</uuid>
+                            <expression>max(/Pantum mono laser multifunction printer by SNMP/printer.drum.resource[{#SINGLETON}],#3)&lt;{$DRUM.RESOURCE.MIN.WARN} and last(/Pantum mono laser multifunction printer by SNMP/printer.drum.status)&lt;&gt;1</expression>
+                            <name>Drum resource is low</name>
+                            <event_name>Cartridge resource is low (less {$DRUM.RESOURCE.MIN.CRIT}%)</event_name>
+                            <opdata>Current value: {ITEM.LASTVALUE1}</opdata>
+                            <priority>WARNING</priority>
+                            <dependencies>
+                                <dependency>
+                                    <name>No drum unit installed</name>
+                                    <expression>last(/Pantum mono laser multifunction printer by SNMP/printer.drum.status)=1</expression>
+                                </dependency>
+                            </dependencies>
+                            <tags>
+                                <tag>
+                                    <tag>scope</tag>
+                                    <value>capacity</value>
+                                </tag>
+                            </tags>
+                        </trigger_prototype>
+                    </trigger_prototypes>
+                    <preprocessing>
+                        <step>
+                            <type>JAVASCRIPT</type>
+                            <parameters>
+                                <parameter>return JSON.stringify(value === '[]' ? [] : [{'{#SINGLETON}': 'extended'}]);</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                </discovery_rule>
+            </discovery_rules>
+            <tags>
+                <tag>
+                    <tag>class</tag>
+                    <value>printer</value>
+                </tag>
+                <tag>
+                    <tag>target</tag>
+                    <value>Pantum</value>
+                </tag>
+                <tag>
+                    <tag>target</tag>
+                    <value>Pantum M6700DW</value>
+                </tag>
+                <tag>
+                    <tag>target</tag>
+                    <value>Pantum M7100DN</value>
+                </tag>
+                <tag>
+                    <tag>target</tag>
+                    <value>Pantum M7100DW</value>
+                </tag>
+            </tags>
+            <macros>
+                <macro>
+                    <macro>{$CARTRIDGE.RESOURCE.MIN.CRIT}</macro>
+                    <value>5</value>
+                    <description>Low critical level of cartridge resource (toner)</description>
+                </macro>
+                <macro>
+                    <macro>{$CARTRIDGE.RESOURCE.MIN.WARN}</macro>
+                    <value>10</value>
+                    <description>Low warning level of cartridge resource (toner)</description>
+                </macro>
+                <macro>
+                    <macro>{$CARTRIDGE.WEAR.PER.HOUR.MAX}</macro>
+                    <value>10</value>
+                    <description>Trigger's threshold for cartridge wearing (per hour)</description>
+                </macro>
+                <macro>
+                    <macro>{$DRUM.RESOURCE.MIN.CRIT}</macro>
+                    <value>5</value>
+                    <description>Low critical level of drum unit resource</description>
+                </macro>
+                <macro>
+                    <macro>{$DRUM.RESOURCE.MIN.WARN}</macro>
+                    <value>10</value>
+                    <description>Low warning level of drum unit resource</description>
+                </macro>
+                <macro>
+                    <macro>{$PAGES.PRINTED.PER.HOUR.MAX}</macro>
+                    <value>10</value>
+                    <description>Trigger's threshold for printed pages (per hour)</description>
+                </macro>
+                <macro>
+                    <macro>{$SNMP.TIMEOUT}</macro>
+                    <value>5m</value>
+                    <description>Used for &quot;SNMP agent availability&quot; metric</description>
+                </macro>
+            </macros>
+            <valuemaps>
+                <valuemap>
+                    <uuid>45a245e27d6e4cf28119273b7c2d4cad</uuid>
+                    <name>System state</name>
+                    <mappings>
+                        <mapping>
+                            <value>1</value>
+                            <newvalue>idle</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>2</value>
+                            <newvalue>sleeping</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>3</value>
+                            <newvalue>warming up</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>4</value>
+                            <newvalue>printing</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>6</value>
+                            <newvalue>printing</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>7</value>
+                            <newvalue>scanning</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>501</value>
+                            <newvalue>no cartridge or drum</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>502</value>
+                            <newvalue>front cover opened</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>503</value>
+                            <newvalue>no papier</newvalue>
+                        </mapping>
+                    </mappings>
+                </valuemap>
+            </valuemaps>
+        </template>
+    </templates>
+    <triggers>
+        <trigger>
+            <uuid>9e42869ec9534eb294978924c58a6b9e</uuid>
+            <expression>max(/Pantum mono laser multifunction printer by SNMP/printer.cartridge.resource,#3)&lt;{$CARTRIDGE.RESOURCE.MIN.CRIT} and last(/Pantum mono laser multifunction printer by SNMP/printer.cartridge.status)&lt;&gt;1</expression>
+            <name>Cartridge resource is critical low</name>
+            <event_name>Cartridge resource is critical low (less {$CARTRIDGE.RESOURCE.MIN.CRIT}%)</event_name>
+            <opdata>Current value: {ITEM.LASTVALUE1} &gt;</opdata>
+            <priority>AVERAGE</priority>
+            <dependencies>
+                <dependency>
+                    <name>Cartridge resource is low</name>
+                    <expression>max(/Pantum mono laser multifunction printer by SNMP/printer.cartridge.resource,#3)&lt;{$CARTRIDGE.RESOURCE.MIN.WARN} and last(/Pantum mono laser multifunction printer by SNMP/printer.cartridge.status)&lt;&gt;1</expression>
+                </dependency>
+            </dependencies>
+            <tags>
+                <tag>
+                    <tag>scope</tag>
+                    <value>capacity</value>
+                </tag>
+            </tags>
+        </trigger>
+        <trigger>
+            <uuid>67c567a3c7bc4d82a8a386d33cda00a6</uuid>
+            <expression>max(/Pantum mono laser multifunction printer by SNMP/printer.cartridge.resource,#3)&lt;{$CARTRIDGE.RESOURCE.MIN.WARN} and last(/Pantum mono laser multifunction printer by SNMP/printer.cartridge.status)&lt;&gt;1</expression>
+            <name>Cartridge resource is low</name>
+            <event_name>Cartridge resource is low (less {$CARTRIDGE.RESOURCE.MIN.WARN}%)</event_name>
+            <opdata>Current value: {ITEM.LASTVALUE1}</opdata>
+            <priority>WARNING</priority>
+            <dependencies>
+                <dependency>
+                    <name>No cartridge installed</name>
+                    <expression>last(/Pantum mono laser multifunction printer by SNMP/printer.cartridge.status)=1</expression>
+                </dependency>
+            </dependencies>
+            <tags>
+                <tag>
+                    <tag>scope</tag>
+                    <value>capacity</value>
+                </tag>
+            </tags>
+        </trigger>
+        <trigger>
+            <uuid>d8ab813301f0462c85528064bb85c0fd</uuid>
+            <expression>last(/Pantum mono laser multifunction printer by SNMP/system.state)=501 or last(/Pantum mono laser multifunction printer by SNMP/printer.drum.status)=1 or last(/Pantum mono laser multifunction printer by SNMP/printer.cartridge.status)=1</expression>
+            <name>No cartridge or drum unit installed</name>
+            <status>DISABLED</status>
+            <priority>HIGH</priority>
+        </trigger>
+        <trigger>
+            <uuid>d1c5abe7e87d40a49aabe3036a59bc2b</uuid>
+            <expression>last(/Pantum mono laser multifunction printer by SNMP/system.state)=503 or 
+last(/Pantum mono laser multifunction printer by SNMP/printer.papier_status)=131</expression>
+            <name>No papier on feeder</name>
+            <priority>INFO</priority>
+        </trigger>
+    </triggers>
+</zabbix_export>
