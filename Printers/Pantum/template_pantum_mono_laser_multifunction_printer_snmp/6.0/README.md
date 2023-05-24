@@ -1,6 +1,6 @@
-### Pantum mono laser multifunction printer
+## Pantum mono laser multifunction printer
 
-## Overview
+### Overview
 
 SNMPv2 template is made by reverse engineering way.
 
@@ -11,11 +11,11 @@ Tested on:
  - M7100DW / FW 2.A.1.3 (full compatibility found);
  - M7100DN / FW 3.6.1.4 (partial compatibility found).
 
-## Setup
+### Setup
 
 Just import template.
 
-## Macros used
+### Macros used
 
 | Name                           | Description                                          |
 |:-------------------------------|:-----------------------------------------------------|
@@ -27,11 +27,11 @@ Just import template.
 | {$DRUM.RESOURCE.MIN.CRIT}      | Low critical level of drum unit resource             |
 | {$SNMP.TIMEOUT}                | Used for "SNMP agent availability" metric            |
 
-## Discovery rules
+### Discovery rules
 
 Extended statistic discovery - Create items for extended statistic metrics: Cartridge / Drum unit models, s/n, resource
 
-## Items collected
+### Items collected
 
 | Name                          | Description |    Type         | Key and additional info                         |
 |:------------------------------|:-----------:|:----------------|-------------------------------------------------|
@@ -64,7 +64,7 @@ Extended statistic discovery - Create items for extended statistic metrics: Cart
 
 \* Available on printers/firmware with SNMP subtree 1.3.6.1.4.1.40093.10 exists
 
-## Triggers
+### Triggers
 
 | Name                               | Severity     |
 |:-----------------------------------|:-------------|
@@ -85,9 +85,9 @@ Extended statistic discovery - Create items for extended statistic metrics: Cart
 
 \* Available on printers/firmware with SNMP subtree 1.3.6.1.4.1.40093.10 exists
 
-## Feedback
+### Feedback
 
 e-mail to me: zbx.sadman@gmail.com
 
-## Demo
+### Demo
 ![image](https://github.com/zbx-sadman/zabbix-templates/assets/12827470/24d193b9-870b-4174-a12c-4351d3875a7a)
