@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>6.0</version>
-    <date>2023-05-23T13:59:36Z</date>
+    <date>2023-05-24T06:17:01Z</date>
     <groups>
         <group>
             <uuid>60f1dce8720d41eab748470cd7d4746e</uuid>
@@ -134,6 +134,14 @@ Probaly the same that 1.3.6.1.4.1.40093.10.1.5.2.1.7.4</description>
                     <units>%</units>
                     <params>max(//printer.cartridge.resource,1h)-min(//printer.cartridge.resource,1h)</params>
                     <preprocessing>
+                        <step>
+                            <type>CHECK_NOT_SUPPORTED</type>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
+                            <error_handler>CUSTOM_VALUE</error_handler>
+                            <error_handler_params>0</error_handler_params>
+                        </step>
                         <step>
                             <type>DISCARD_UNCHANGED_HEARTBEAT</type>
                             <parameters>
@@ -292,6 +300,14 @@ probaly the same that 1.3.6.1.4.1.40093.10.1.5.3.1.6</description>
                     <units>!pcs</units>
                     <params>max(//printer.page.printed_total,1h)-min(//printer.page.printed_total,1h)</params>
                     <preprocessing>
+                        <step>
+                            <type>CHECK_NOT_SUPPORTED</type>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
+                            <error_handler>CUSTOM_VALUE</error_handler>
+                            <error_handler_params>0</error_handler_params>
+                        </step>
                         <step>
                             <type>DISCARD_UNCHANGED_HEARTBEAT</type>
                             <parameters>
@@ -665,7 +681,7 @@ length(last(/Pantum mono laser multifunction printer by SNMP/system.fw.version))
                     <tags>
                         <tag>
                             <tag>component</tag>
-                            <value>print unit</value>
+                            <value>printer</value>
                         </tag>
                     </tags>
                 </item>
